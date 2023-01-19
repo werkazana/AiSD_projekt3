@@ -22,7 +22,7 @@ void findNeighboursOfEachVertex(std::vector<std::vector<int>> graph, int numVert
 	}
 }
 
-// wyswietla wierzcholki, ktorych sasiadami sa wszystkie pozostale wierzcholki
+// wyswietla wierzcholki, ktorych sasiadami sa wszystkie inne wierzcholki
 void findVervicesHavingAllOtherVerticesNeighbours(std::vector<std::vector<int>> graph, int numVertex)
 {
 	std::vector<int> edges;
@@ -144,6 +144,7 @@ void findLoopsOfEachVertex(std::vector<std::vector<int>> graph, int numVertex)
 // znajduje i wyswietla krawedzie dwukierunkowe grafu
 void findTwoWayEdges(std::vector<std::vector<int>> graph, int numVertex)
 {
+	bool found = false;
 	for (int i = 0; i < numVertex; i++)
 	{
 		for (int j = 0; j < numVertex; j++)
@@ -151,9 +152,14 @@ void findTwoWayEdges(std::vector<std::vector<int>> graph, int numVertex)
 			if (i != j && graph[i][j] == 1 && graph[j][i] == 1)
 			{
 				cout << "Krawedz dwukierunkowa pomiedzy wierzcholkami " << i << " a " << j << endl;
+				found = true;
 				i++; // zapobiega ponownemu wypisywaniu tej samej krawedzi z odwroconymi wierzcholkami
 			}
 		}
+	}
+	if (found == false)
+	{
+		cout << "Nie ma krawedzi dwukierunkowych w grafie" << endl;
 	}
 }
 
@@ -186,14 +192,55 @@ std::vector<std::vector<int>> generateAdjacencyMatrix(int numVertex, std::vector
 	return matrix;
 }
 
+// pobieranie danych grafu od uzytkownika
+bool readGraphData(int &numVertex, std::vector<int>& P, std::vector<int>& K)
+{
+	int numEdges, p, k;
+	cout << "Podaj liczbe wierzcholkow grafu: ";
+	cin >> numVertex;
+	cout << "Podaj liczbe krawedzi grafu: ";
+	cin >> numEdges;
+
+	if (numVertex > 0)
+	{
+		P.clear();
+		K.clear();
+		for (int i = 0; i < numEdges; i++)
+		{
+			cout << "Podaj krawedz " << i << " [P K]: ";
+			cin >> p >> k;
+			if (p >= 0 && k >= 0 && p < numEdges && k < numEdges)
+			{
+				P.push_back(p);
+				K.push_back(k);
+			}
+			else
+			{
+				cout << "Podana krawedz zawiera nieprawidlowe wierzcholki." << endl;
+				i--;
+			}
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
+// funkcja main
 int main()
 {
 	// ilosc wierzcholkow
-	int numVertex = 5;
+	int numVertex;
+	// tablice krawedzi grafu (poczatki, konce)
+	std::vector<int> P, K;
+	// pobieranie danych grafu od uzytkownika
+	if (readGraphData(numVertex, P, K) == false)
+		return 1; // brak wierzcholkow
 	
 	// definicja krawedzi grafu (P, K)
-	std::vector<int> P = { 0, 1, 1, 3, 2 }; // wierzcholki poczatkowe
-	std::vector<int> K = { 1, 0, 2, 3, 0 }; // wierzcholki koncowe
+//	std::vector<int> P = { 0, 1, 1, 3, 2 }; // wierzcholki poczatkowe
+//	std::vector<int> K = { 1, 0, 2, 3, 0 }; // wierzcholki koncowe
 
 	// generowanie macierzy sasiedztwa
 	cout << "Macierz sasiedztwa" << endl;
