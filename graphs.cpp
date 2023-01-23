@@ -172,7 +172,7 @@ std::vector<std::vector<int>> generateAdjacencyMatrix(int numVertex, std::vector
 	{
 		matrix[i].resize(numVertex);
 	}
-	
+
 	for (int i = 0; i < P.size(); i++)
 	{
 		int p = P[i];     // wierzcholek startowy
@@ -193,7 +193,7 @@ std::vector<std::vector<int>> generateAdjacencyMatrix(int numVertex, std::vector
 }
 
 // pobieranie danych grafu od uzytkownika
-bool readGraphData(int &numVertex, std::vector<int>& P, std::vector<int>& K)
+bool readGraphData(int& numVertex, std::vector<int>& P, std::vector<int>& K)
 {
 	int numEdges, p, k;
 	cout << "Podaj liczbe wierzcholkow grafu: ";
@@ -209,7 +209,7 @@ bool readGraphData(int &numVertex, std::vector<int>& P, std::vector<int>& K)
 		{
 			cout << "Podaj krawedz " << i << " [P K]: ";
 			cin >> p >> k;
-			if (p >= 0 && k >= 0 && p < numEdges && k < numEdges)
+			if (p >= 0 && k >= 0 && p < numVertex && k < numVertex)
 			{
 				P.push_back(p);
 				K.push_back(k);
@@ -237,7 +237,7 @@ int main()
 	// pobieranie danych grafu od uzytkownika
 	if (readGraphData(numVertex, P, K) == false)
 		return 1; // brak wierzcholkow
-	
+
 	// definicja krawedzi grafu (P, K)
 //	std::vector<int> P = { 0, 1, 1, 3, 2 }; // wierzcholki poczatkowe
 //	std::vector<int> K = { 1, 0, 2, 3, 0 }; // wierzcholki koncowe
@@ -261,7 +261,7 @@ int main()
 	// stopnie wchodzace wszystkich wierzcholkow
 	cout << endl << "Zadanie 4" << endl;
 	findInDegreeOfEachVertex(graph, numVertex);
-	
+
 	// izolowane wierzcholki
 	cout << endl << "Zadanie 5" << endl;
 	findIsolatedVertices(graph, numVertex);
